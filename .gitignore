@@ -1,0 +1,26 @@
+# Python cache and build artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+build/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+
+# macOS
+.DS_Store
+
+# Local ERiC package storage (keep folder structure, ignore payload)
+vendor/eric/inbox/*
+vendor/eric/runtime/*
+!vendor/eric/inbox/.gitkeep
+!vendor/eric/runtime/.gitkeep
+!vendor/eric/README.md

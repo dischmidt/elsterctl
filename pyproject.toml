@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "elsterctl"
+version = "0.1.0"
+description = "CLI for ELSTER (ERiC) communication"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "click>=8.1.7",
+  "click-shell>=2.1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3",
+]
+
+[project.scripts]
+elsterctl = "elsterctl.__main__:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
