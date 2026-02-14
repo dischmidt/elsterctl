@@ -146,7 +146,13 @@ For additional macOS notes, see `docs/eric-macos-install.md`.
 
 ## Command Structure
 
-    elsterctl <resource> <action> [options]
+    elsterctl [global-options] <resource> <action> [options]
+
+  Global options:
+
+  - `--transfer-mode [prod|test]` --- force global transfer mode
+  - `--test-transfer-mode` --- enable test transfer mode globally
+  - Precedence: `--transfer-mode` overrides `--test-transfer-mode`
 
 Primary resources:
 
@@ -171,6 +177,16 @@ elsterctl message send \
   --subject "<subject>" \
   --body <file> \
   --attachment <file>
+
+elsterctl --test-transfer-mode message send \
+  --tax-number <tax-number> \
+  --subject "<subject>" \
+  --body <file>
+
+elsterctl --transfer-mode prod --test-transfer-mode message send \
+  --tax-number <tax-number> \
+  --subject "<subject>" \
+  --body <file>
 ```
 
 Optional:
@@ -178,6 +194,7 @@ Optional:
 ```bash
 elsterctl message status --id <transfer-ticket>
 elsterctl message list
+elsterctl message fetch-inbox --limit 50 --unread-only
 ```
 
 ---
@@ -255,6 +272,8 @@ Manage local settings.
 ```bash
 elsterctl config set <key> <value>
 elsterctl config show
+elsterctl --transfer-mode test show-config
+elsterctl --transfer-mode test show-config --json
 ```
 
 ---
