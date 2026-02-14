@@ -24,3 +24,6 @@ vendor/eric/runtime/*
 !vendor/eric/inbox/.gitkeep
 !vendor/eric/runtime/.gitkeep
 !vendor/eric/README.md
+
+# Local examples (sensitive payloads, test data)
+examples/
