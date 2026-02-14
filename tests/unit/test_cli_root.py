@@ -56,6 +56,8 @@ def test_show_config_prints_effective_runtime_values() -> None:
     assert "verbose=True" in result.output
     assert "transfer_mode=test" in result.output
     assert "test_transfer_mode=True" in result.output
+    assert "force_test_mode=" in result.output
+    assert "hersteller_id=" in result.output
     assert "eric_lib=/tmp/libericapi.dylib" in result.output
 
 
@@ -71,5 +73,57 @@ def test_show_config_json_outputs_structured_configuration() -> None:
     payload = json.loads(result.output)
     assert payload["transfer_mode"] == "test"
     assert payload["test_transfer_mode"] is True
+    assert payload["force_test_mode"] == ""
+    assert payload["hersteller_id"] == ""
     assert payload["verbose"] is False
     assert payload["eric_lib"] == "/tmp/libericapi.dylib"
+
+
+def test_force_test_mode_blocks_prod_runs() -> None:
+    runner = CliRunner()
+    result = runner.invoke(
+        cli,
+        ["--transfer-mode", "prod", "show-config"],
+        env={"ELSTERCTL_FORCE_TEST_MODE": "1"},
+    )
+
+    assert result.exit_code == 1
+    assert "Production mode is blocked" in result.output
+
+
+def test_force_test_mode_allows_test_runs() -> None:
+    runner = CliRunner()
+    result = runner.invoke(
+        cli,
+        ["--transfer-mode", "test", "show-config"],
+        env={"ELSTERCTL_FORCE_TEST_MODE": "1"},
+    )
+
+    assert result.exit_code == 0
+    assert "transfer_mode=test" in result.output
+
+
+def test_transfer_mode_defaults_from_env_when_option_omitted() -> None:
+    runner = CliRunner()
+    result = runner.invoke(
+        cli,
+        ["show-config"],
+        env={"ELSTER_DEFAULT_TRANSFER_MODE": "test"},
+    )
+
+    assert result.exit_code == 0
+    assert "transfer_mode=test" in result.output
+    assert "test_transfer_mode=True" in result.output
+
+
+def test_transfer_mode_option_overrides_env_default() -> None:
+    runner = CliRunner()
+    result = runner.invoke(
+        cli,
+        ["--transfer-mode", "prod", "show-config"],
+        env={"ELSTER_DEFAULT_TRANSFER_MODE": "test"},
+    )
+
+    assert result.exit_code == 0
+    assert "transfer_mode=prod" in result.output
+    assert "test_transfer_mode=False" in result.output

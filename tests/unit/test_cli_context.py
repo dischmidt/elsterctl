@@ -1,6 +1,7 @@
 """Tests for shared CLI context helpers."""
 
 import click
+import pytest
 
 from elsterctl.shared.cli_context import get_effective_transfer_mode, resolve_transfer_mode
 
@@ -27,4 +28,21 @@ def test_resolve_transfer_mode_flag_enables_test_mode() -> None:
 
 def test_resolve_transfer_mode_parameter_has_precedence_over_flag() -> None:
     assert resolve_transfer_mode("prod", True) == "prod"
+    assert resolve_transfer_mode("test", False) == "test"
+
+
+def test_resolve_transfer_mode_blocks_prod_when_force_test_enabled(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("ELSTERCTL_FORCE_TEST_MODE", "1")
+
+    with pytest.raises(ValueError, match="Production mode is blocked"):
+        resolve_transfer_mode("prod", False)
+
+
+def test_resolve_transfer_mode_allows_test_when_force_test_enabled(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("ELSTERCTL_FORCE_TEST_MODE", "true")
+
     assert resolve_transfer_mode("test", False) == "test"

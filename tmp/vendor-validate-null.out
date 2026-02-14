@@ -1,0 +1,33 @@
+Starte ericdemo ...
+
+*** Lese die Datensatzdatei "ESt_2020.xml" mit Datenartversion "ESt_2020" ein ***
+
+
+*** Validiere den Datensatz ***
+
+Traceback (most recent call last):
+  File "/Users/dschmidt/elsterctl/vendor/eric/runtime/ERiC-43.3.2.0/Darwin-universal/Beispiel/ericdemo-python/ericdemo/ericdemo.py", line 139, in <module>
+    main()
+    ~~~~^^
+  File "/Users/dschmidt/elsterctl/vendor/eric/runtime/ERiC-43.3.2.0/Darwin-universal/Beispiel/ericdemo-python/ericdemo/ericdemo.py", line 54, in main
+    rc = vorgang.execute(
+        certificate=certificate,
+        send=args.senden,
+        transfer_handle=args.transfer_handle)
+  File "/Users/dschmidt/elsterctl/vendor/eric/runtime/ERiC-43.3.2.0/Darwin-universal/Beispiel/ericdemo-python/ericdemo/erictasks.py", line 85, in execute
+    rc, th = self._eric.PyEricBearbeiteVorgang(
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        datenpuffer=self._datensatz,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        serverantwortXmlPuffer=server_buffer.handle()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        )
+        ^
+  File "/Users/dschmidt/elsterctl/vendor/eric/runtime/ERiC-43.3.2.0/Darwin-universal/Beispiel/ericdemo-python/ericdemo/ericapi/_ericapi.py", line 405, in PyEricBearbeiteVorgang
+    rc = self._lib.EricBearbeiteVorgang(
+        datenpuffer,
+    ...<5 lines>...
+        rueckgabeXmlPuffer,
+        serverantwortXmlPuffer)
+KeyboardInterrupt

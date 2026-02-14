@@ -77,7 +77,10 @@ python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -U pip
 python -m pip install -e .
+cp .env.example .env
 ```
+
+`elsterctl` auto-loads local `.env` values via `python-dotenv`.
 
 ### 2) Place and extract ERiC package locally
 
@@ -108,6 +111,14 @@ Auto-detect helper script:
 
 ```bash
 source scripts/use-local-eric.sh
+```
+
+Or put the same path in `.env` as `ELSTER_ERIC_LIB=...`.
+
+On macOS, you may need to allow access to ERiC `.dylib` files after extraction:
+
+```bash
+xattr -d com.apple.quarantine vendor/eric/runtime/**/*.dylib
 ```
 
 ### 4) Verify setup
@@ -153,6 +164,14 @@ For additional macOS notes, see `docs/eric-macos-install.md`.
   - `--transfer-mode [prod|test]` --- force global transfer mode
   - `--test-transfer-mode` --- enable test transfer mode globally
   - Precedence: `--transfer-mode` overrides `--test-transfer-mode`
+  - `ELSTERCTL_FORCE_TEST_MODE=1` --- block any production mode execution
+
+Test-only safeguard example:
+
+```bash
+export ELSTERCTL_FORCE_TEST_MODE=1
+elsterctl --transfer-mode test show-config
+```
 
 Primary resources:
 
@@ -172,21 +191,26 @@ Primary resources:
 Send general messages (including attachments) to German tax offices.
 
 ```bash
+export ELSTER_CERT_PIN='<certificate-pin>'
+
+elsterctl message create-template \
+  --output ./message.xml \
+  --hersteller-id <your-hersteller-id> \
+  --subject "Test message" \
+  --body "Hello from elsterctl"
+
 elsterctl message send \
-  --tax-number <tax-number> \
-  --subject "<subject>" \
-  --body <file> \
-  --attachment <file>
+  --xml ./message.xml \
+  --certificate /path/to/certificate.pfx \
+  --data-type-version TH11
 
 elsterctl --test-transfer-mode message send \
-  --tax-number <tax-number> \
-  --subject "<subject>" \
-  --body <file>
+  --xml ./message.xml \
+  --certificate /path/to/certificate.pfx
 
 elsterctl --transfer-mode prod --test-transfer-mode message send \
-  --tax-number <tax-number> \
-  --subject "<subject>" \
-  --body <file>
+  --xml ./message.xml \
+  --certificate /path/to/certificate.pfx
 ```
 
 Optional:

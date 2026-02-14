@@ -23,7 +23,28 @@ def load_eric_library() -> ctypes.CDLL:
     if not candidate.exists():
         raise EricLibraryLoadError(f"ERiC library not found at: {candidate}")
 
+    if os.name == "posix" and "darwin" in os.sys.platform:
+        _prepare_macos_runtime(candidate)
+
     try:
-        return ctypes.CDLL(str(candidate))
+        return ctypes.CDLL(str(candidate), mode=ctypes.RTLD_GLOBAL)
     except OSError as exc:
         raise EricLibraryLoadError(f"Failed to load ERiC library: {candidate}") from exc
+
+
+def _prepare_macos_runtime(main_library: Path) -> None:
+    lib_dir = main_library.parent
+
+    existing_paths = os.getenv("DYLD_LIBRARY_PATH", "")
+    updated_paths = [str(lib_dir)]
+    if existing_paths:
+        updated_paths.append(existing_paths)
+    os.environ["DYLD_LIBRARY_PATH"] = ":".join(updated_paths)
+
+    for dependency in sorted(lib_dir.glob("liberic*.dylib")):
+        if dependency == main_library:
+            continue
+        try:
+            ctypes.CDLL(str(dependency), mode=ctypes.RTLD_GLOBAL)
+        except OSError:
+            continue

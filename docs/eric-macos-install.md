@@ -77,6 +77,13 @@ elsterctl --help
 - Keep ERiC binary payload out of version control.
 - If macOS blocks unsigned libraries, allow execution in system security
   settings as required by your local policy.
+- On macOS, it may be necessary to allow access to extracted `.dylib`
+  files explicitly, for example:
+
+```bash
+xattr -d com.apple.quarantine vendor/eric/runtime/**/*.dylib
+```
+
 - If `ctypes` fails with a "library load disallowed by system policy"
   error, remove quarantine attributes from the extracted runtime:
 

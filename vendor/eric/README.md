@@ -41,6 +41,12 @@ Or use the helper script:
 source scripts/use-local-eric.sh
 ```
 
+On macOS, you may need to allow access to extracted ERiC `.dylib` files:
+
+```bash
+xattr -d com.apple.quarantine vendor/eric/runtime/**/*.dylib
+```
+
 If loading fails with `library load disallowed by system policy` on
 macOS, remove quarantine attributes from the extracted runtime:
 

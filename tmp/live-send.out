@@ -1,0 +1,2 @@
+Effective transfer mode: test
+Error: ERiC processing failed: Die übergebene Datenartversion ist unbekannt oder das benötigte ERiC-Plugin wurde nicht gefunden. Beachten Sie bitte, dass die Datenartversion case-sensitive ist. (result_code=610001042)
