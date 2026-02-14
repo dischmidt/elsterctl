@@ -77,5 +77,12 @@ elsterctl --help
 - Keep ERiC binary payload out of version control.
 - If macOS blocks unsigned libraries, allow execution in system security
   settings as required by your local policy.
+- If `ctypes` fails with a "library load disallowed by system policy"
+  error, remove quarantine attributes from the extracted runtime:
+
+```bash
+xattr -dr com.apple.quarantine vendor/eric/runtime/ERiC-43.3.2.0
+```
+
 - If the ERiC package includes additional dependency libraries, keep them
   in the same runtime tree so the dynamic linker can resolve them.

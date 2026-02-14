@@ -9,7 +9,11 @@ if [[ ! -d "$runtime_dir" ]]; then
   return 1 2>/dev/null || exit 1
 fi
 
-eric_lib="$(find "$runtime_dir" -type f \( -name "libericapi.dylib" -o -name "libericapi_*.dylib" -o -name "*eric*.dylib" \) | head -n 1)"
+eric_lib="$(find "$runtime_dir" -type f \( -name "libericapi.dylib" -o -name "libericapi_*.dylib" \) | head -n 1)"
+
+if [[ -z "$eric_lib" ]]; then
+  eric_lib="$(find "$runtime_dir" -type f -name "*eric*.dylib" | head -n 1)"
+fi
 
 if [[ -z "$eric_lib" ]]; then
   echo "No ERiC .dylib found under: $runtime_dir" >&2

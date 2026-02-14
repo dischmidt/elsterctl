@@ -138,6 +138,8 @@ For additional macOS notes, see `docs/eric-macos-install.md`.
 
 - macOS blocks library loading (Gatekeeper)
   - Open System Settings and allow execution for the blocked binary if prompted.
+  - Remove quarantine attributes from extracted ERiC runtime files:
+    `xattr -dr com.apple.quarantine vendor/eric/runtime/ERiC-43.3.2.0`
   - Re-run `source scripts/use-local-eric.sh` and then `elsterctl --help`.
 
 ---

@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^xattr -l vendor/eric/runtime/ERiC-43\\.3\\.2\\.0/Darwin-universal/lib/libericapi\\.dylib \\|\\| true; xattr -dr com\\.apple\\.quarantine vendor/eric/runtime/ERiC-43\\.3\\.2\\.0 \\|\\| true; xattr -l vendor/eric/runtime/ERiC-43\\.3\\.2\\.0/Darwin-universal/lib/libericapi\\.dylib \\|\\| true$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
