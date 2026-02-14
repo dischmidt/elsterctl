@@ -26,4 +26,6 @@ vendor/eric/runtime/*
 !vendor/eric/README.md
 
 # Local examples (sensitive payloads, test data)
-examples/
+examples/*
+!examples/
+!examples/README.md
