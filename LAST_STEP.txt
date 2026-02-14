@@ -1,0 +1,5 @@
+elsterctl --certificate certs/test-soft-pse.pfx message send --xml examples/test-message.xml
+
+Looks like I need a hersteller-id first - even for testing.
+Ok, I ordered it.
+

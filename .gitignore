@@ -34,3 +34,8 @@ vendor/eric/runtime/*
 examples/*
 !examples/
 !examples/README.md
+!examples/test-message.xml
+
+
+
+LAST_STEP.txt

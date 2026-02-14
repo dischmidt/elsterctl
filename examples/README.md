@@ -12,6 +12,9 @@ response notes).
 - `codes/` — other code or programs using ERiC order interacting with ELSTER
 - `docmentations/` — documentations for ELSTER and ERiC
 
+## Test files
+- `test-message.xml`– a test message for "message send"
+
 ## Important
 
 - Do not commit sensitive tax data, certificates, or credentials.
